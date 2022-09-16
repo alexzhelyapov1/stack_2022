@@ -1,6 +1,16 @@
 #ifndef STACK_H_INCLUDED
 #define STACK_H_INCLUDED
 
+// Settings for using stack:
+//-----------------------------------------------------------------------------
+#define START_NUM_OF_ELEMENTS 2
+#define STACK_MULTIPLY_CONST 2
+#define STACK_DIVIDE_CONST 2
+#define STACK_DIVIDE_TRIGGER 4
+#define KEY_FOR_PRINTF "%d "      // for int
+#define TYPE_OF_ELEMENT int
+//-----------------------------------------------------------------------------
+
 #include <stdio.h>
 #include <assert.h>
 #include <stdlib.h>
@@ -14,6 +24,7 @@ struct Stack {
     int size_of_element;
     int offset;
     int size_of_allocated_mem;
+    int size_of_canary;
     int end_canary_of_stack_struct;
 };
 
@@ -22,7 +33,11 @@ enum Error {
     CANT_ALLOCATE_MEMORY_INIT_STACK,
     CANT_ALLOCATE_MEMORY_PUSH,
     NO_ELEMENTS_TO_POP,
-    CANT_ALLOCATE_MEMORY_POP
+    CANT_ALLOCATE_MEMORY_POP,
+    NO_ELEMENTS_TO_TOP,
+    INVALID_CANARY_OF_STACK,
+    INVALID_CANARY_OF_STACK_ARRAY,
+    CANT_INSTALL_CANARIES
 };
 
 
@@ -30,16 +45,15 @@ int stack_init (struct Stack* stack, int size_of_element);
 int stack_push (struct Stack* stack, void* element);
 int stack_pop (struct Stack* stack, void* return_element);
 int stack_print (struct Stack* stack);
+int stack_top (struct Stack* stack, void* return_element);
+bool stack_isEmpty (struct Stack* stack);
+int stack_size (struct Stack* stack);
+
+void end_of_program ();
 
 
 #endif
 
 
-// Need to realise
-// push() to insert an element into the stack
-// pop() to remove an element from the stack
-// top() Returns the top element of the stack.
-// isEmpty() returns true is stack is empty else false
-// size() returns the size of stack
-
-// Сделать функцию обработки и вывода сообщений по ошибке errno 
+// Plan to do
+// 1) Add canary for stack array

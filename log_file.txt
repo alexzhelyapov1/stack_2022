@@ -1,0 +1,5 @@
+Pushing elemnt 5
+Pushing elemnt 4
+Pushing elemnt 3
+Printing stack. First element on the top is = 1936287828
+Printing stack. First element on the top is = 5
