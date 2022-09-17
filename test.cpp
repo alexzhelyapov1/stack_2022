@@ -5,7 +5,7 @@ int test_1();
 
 
 int test_main() {
-    print_name_of_err (test_1());
+    test_1();
 }
 
 
@@ -19,7 +19,7 @@ int test_1() {
         stack_push(&stack,(void*)&(i));
     }
     er += stack_print(&stack);
-    for (int i = 0; i < 0; i++) {
+    for (int i = 0; i < 26; i++) {
         // stack_print(&stack);
         if (er = stack_pop(&stack, &a)) print_name_of_err(er);
     }

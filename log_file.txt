@@ -72,3 +72,29 @@ Pushing elemnt 23
 After pushing Stack: 23  22  21  20  19  18  17  16  15  14  13  12  11  10  9  8  7  6  5  4  3  2  1  0  
 Pushing elemnt 24
 After pushing Stack: 24  23  22  21  20  19  18  17  16  15  14  13  12  11  10  9  8  7  6  5  4  3  2  1  0  
+Popping elemnt 24
+Popping elemnt 23
+Popping elemnt 22
+Popping elemnt 21
+Popping elemnt 20
+Popping elemnt 19
+Popping elemnt 18
+Popping elemnt 17
+Popping elemnt 16
+Popping elemnt 15
+Popping elemnt 14
+Popping elemnt 13
+Popping elemnt 12
+Popping elemnt 11
+Popping elemnt 10
+Popping elemnt 9
+Popping elemnt 8
+Popping elemnt 7
+Popping elemnt 6
+Popping elemnt 5
+Popping elemnt 4
+Popping elemnt 3
+Popping elemnt 2
+Popping elemnt 1
+Popping elemnt 0
+Error is "NO_ELEMENTS_TO_POP"
