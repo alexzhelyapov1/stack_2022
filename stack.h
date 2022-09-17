@@ -48,6 +48,8 @@ int stack_print (struct Stack* stack);
 int stack_top (struct Stack* stack, void* return_element);
 bool stack_isEmpty (struct Stack* stack);
 int stack_size (struct Stack* stack);
+int stack_print_file(struct Stack* stack, FILE* file);
+int stack_destructor(struct Stack* stack);
 
 void end_of_program ();
 
@@ -56,4 +58,4 @@ void end_of_program ();
 
 
 // Plan to do
-// 1) Add canary for stack array
+// Unit tests.

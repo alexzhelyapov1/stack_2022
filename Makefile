@@ -1,7 +1,7 @@
 all: debug
 
 debug: clean main.o stack.o
-	g++ -Wall main.o stack.o
+	g++ -g -fsanitize=address,leak -Wall main.o stack.o
 	./a.out
 
 clean:
