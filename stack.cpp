@@ -28,6 +28,7 @@ int stack_init(struct Stack* stack, int size_of_element) {
     stack->stack_pointer = (void*)malloc(stack->size_of_allocated_mem);
     if (!stack->stack_pointer) return CANT_ALLOCATE_MEMORY_INIT_STACK;
     if (install_canaries(stack)) return CANT_INSTALL_CANARIES;
+    stack->hash = hash(stack->stack_pointer, stack->size_of_allocated_mem);
 
     return OK;
 }
@@ -48,6 +49,7 @@ int stack_push(struct Stack* stack, void* element) {
     memcpy(stack->stack_pointer + stack->offset, element, stack->size_of_element);
     stack->num_of_elements += 1;
     stack->offset += stack->size_of_element;
+    stack->hash = hash(stack->stack_pointer, stack->size_of_allocated_mem);
     dpf(fprintf(log_file, "After pushing "));
     dpf(stack_print_file(stack, log_file));
     return OK;
@@ -64,19 +66,22 @@ int stack_pop(struct Stack* stack, void* return_element) {
     if (stack->num_of_elements * STACK_DIVIDE_TRIGGER <= stack->max_num_of_elements) {
         stack->max_num_of_elements /= STACK_DIVIDE_CONST;
         stack->size_of_allocated_mem -= stack->max_num_of_elements * stack->size_of_element;
+        dpf(fprintf(log_file, "\nStack array reallocated. New params: \nmax number of elements = %d\nsize of allocated memory = %d\nsize of 2 canaries = %d\n\n", stack->max_num_of_elements, stack->size_of_allocated_mem, 2 * stack->size_of_canary);)
         stack->stack_pointer = (void*)realloc(stack->stack_pointer, stack->size_of_allocated_mem);
         if (!stack->stack_pointer) return CANT_ALLOCATE_MEMORY_POP;
         if (install_canaries(stack)) return CANT_INSTALL_CANARIES;
     }
-
+    stack->hash = hash(stack->stack_pointer, stack->size_of_allocated_mem);
     dpf(fprintf(log_file, "Popping elemnt %d\n", *((int*)return_element));)
+    dpf(fprintf(log_file, "After popping "));
+    dpf(stack_print_file(stack, log_file));
     return OK;
 }
 
 int stack_print(struct Stack* stack) {
     assert(stack);
 
-    // dpf(fprintf(log_file, "Printing stack. First element on the top is = %d\n",    \
+    // dpf(fprintf(log_file, "Printing stack. First element on the top is = %d\n", 
     //             *((int*)(stack->stack_pointer + stack->offset)));)
     printf("Stack: ");
     for (int i = stack->offset - stack->size_of_element; i >= stack->size_of_canary; i -= stack->size_of_element) {
@@ -92,7 +97,7 @@ int stack_print(struct Stack* stack) {
 int stack_print_file(struct Stack* stack, FILE* file) {
     assert(stack);
 
-    // dpf(fprintf(log_file, "Printing stack. First element on the top is = %d\n",    \
+    // dpf(fprintf(log_file, "Printing stack. First element on the top is = %d\n",  
     //             *((int*)(stack->stack_pointer + stack->offset)));)
     fprintf(file, "Stack: ");
     for (int i = stack->offset - stack->size_of_element; i >= stack->size_of_canary; i -= stack->size_of_element) {
@@ -147,7 +152,11 @@ int stack_valid (struct Stack* stack) {
             dpf(fprintf (log_file, "Comparing second canary \"%s\", \"%s\".\n", (char*)(stack->stack_pointer + stack->max_num_of_elements * \
                                                                         stack->size_of_element + stack->size_of_canary), CANARY_FOR_STACK_ARRAY);)
             return INVALID_CANARY_OF_STACK_ARRAY;
-        }
+    }
+    if (hash(stack->stack_pointer, stack->size_of_allocated_mem) != stack->hash) {
+        dpf(fprintf(log_file, "Comparing hash. Hash expected = %lu, hash received = %lu\n", hash(stack->stack_pointer, stack->size_of_allocated_mem), stack->hash);)
+        return INVALID_HASH_OF_STACK;
+    }
     return OK;
 }
 
@@ -160,7 +169,7 @@ int install_canaries(struct Stack* stack) {
     return OK;
 }
 
-FILE* file_logging_init(char* name_of_file) {
+FILE* file_logging_init(const char* name_of_file) {
     FILE* f = fopen(name_of_file, "w");
     if (!f) {
         printf("Can't open file for logging!\n");
@@ -173,7 +182,28 @@ void end_of_program() {
     fclose(log_file);
 }
 
+unsigned long hash(void *data, int len_of_mem) {
+    assert(data);
+
+    int c = 0;
+    int i = 0;
+    unsigned long hash = 5381;
+
+    while (i < len_of_mem) {
+        c = *((char*)data + i);
+        dpfa(fprintf(log_file, "Chars while hashing: ");)
+        dpfa(fprintf(log_file, "%c", c);)
+        dpfa(fprintf(log_file, "\n");)
+        hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+        i++;
+    }
+    dpf(fprintf(log_file, "Hash calculated = %lu\n", hash);)
+    return hash;
+}
+
 void print_name_of_err (int er) {
+    FILE* temp = log_file;
+    log_file = stdout;
     switch (er) {
     case OK:
         fprintf (log_file, "No errors. Stack is OK\n");
@@ -202,8 +232,12 @@ void print_name_of_err (int er) {
     case CANT_INSTALL_CANARIES:
         fprintf (log_file, "Error is \"%s\"\n", "CANT_INSTALL_CANARIES");
         break;
+    case INVALID_HASH_OF_STACK:
+        fprintf (log_file, "Error is \"%s\"\n", "INVALID_HASH_OF_STACK");
+        break;
     default:
         fprintf (log_file, "Undefined error\n");
     }
+    log_file = temp;
 
 }

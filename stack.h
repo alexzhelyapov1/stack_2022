@@ -25,6 +25,7 @@ struct Stack {
     int offset;
     int size_of_allocated_mem;
     int size_of_canary;
+    unsigned long hash;
     int end_canary_of_stack_struct;
 };
 
@@ -37,7 +38,8 @@ enum Error {
     NO_ELEMENTS_TO_TOP,
     INVALID_CANARY_OF_STACK,
     INVALID_CANARY_OF_STACK_ARRAY,
-    CANT_INSTALL_CANARIES
+    CANT_INSTALL_CANARIES,
+    INVALID_HASH_OF_STACK
 };
 
 

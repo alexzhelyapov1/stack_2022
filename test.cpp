@@ -25,6 +25,7 @@ int test_1() {
     }
     er += stack_print(&stack);
     printf("destructing stack\n");
+    printf("Result of test is = %d, sum of errors = %d\n", stack_valid(&stack), er);
     stack_destructor(&stack);
     // er += printf("Error = %d\n", stack_pop(&stack, &a));
     // er += stack_print(&stack);
