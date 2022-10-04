@@ -1,7 +1,6 @@
 #include "stack.h"
-#include "stack_dev.h"
 
-FILE* log_file = file_logging_init("log_file.txt");
+FILE* log_file = file_logging_init("../log_file.txt");
 
 // struct Stack {
 //     int start_canary_of_stack_struct;

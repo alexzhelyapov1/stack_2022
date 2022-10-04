@@ -11,6 +11,19 @@
 #define TYPE_OF_ELEMENT int
 //-----------------------------------------------------------------------------
 
+// Secure information
+//-----------------------------------------------------------------------------
+#define CANARY_FOR_STACK 0xDEDBAD
+#define CANARY_FOR_STACK_ARRAY "This is secret message!"
+//-----------------------------------------------------------------------------
+
+// Debug settings
+//-----------------------------------------------------------------------------
+#define dpf(code) code          // Debug print to file
+#define dpfa(code)          // Debug print to file all steps
+//-----------------------------------------------------------------------------
+
+
 #include <stdio.h>
 #include <assert.h>
 #include <stdlib.h>
@@ -52,12 +65,15 @@ bool stack_isEmpty (struct Stack* stack);
 int stack_size (struct Stack* stack);
 int stack_print_file(struct Stack* stack, FILE* file);
 int stack_destructor(struct Stack* stack);
-
 void end_of_program ();
 
+// Inside functions
+//-----------------------------------------------------------------------------
+FILE* file_logging_init(const char* name_of_file);
+int stack_valid(struct Stack* stack);
+int install_canaries(struct Stack* stack);
+void print_name_of_err (int er);
+unsigned long hash(void *data, int len_of_mem);
+//-----------------------------------------------------------------------------
 
 #endif
-
-
-// Plan to do
-// Unit tests.
