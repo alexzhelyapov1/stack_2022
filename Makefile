@@ -1,6 +1,7 @@
 BUILD_DIR := build
 BIN_DIR := bin
 LIB_DIR := lib
+VPATH := . lib/
 
 APPLICATION := $(BUILD_DIR)/stack
 
@@ -18,10 +19,10 @@ CXX_FLAGS := -D _DEBUG -ggdb3 -std=c++17 -O0 -Wall -Wextra -Weffc++ -Waggressive
 
 all: prepare $(APPLICATION)
 
-$(APPLICATION): $(BIN_DIR)/%.o
+$(APPLICATION): $(BIN_DIR)/main.o $(BIN_DIR)/stack.o $(BIN_DIR)/test.o
 	$(CXX) $^ -o $@ $(CXX_FLAGS)
 
-$(BIN_DIR)/%.o: %.cpp $(LIB_DIR)/%.cpp
+$(BIN_DIR)/%.o: VPATH/%.cpp
 	$(CXX) $< -c -o $@ $(CXX_FLAGS)
 
 .PHONY: clean prepare run
