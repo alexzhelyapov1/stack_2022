@@ -37,3 +37,5 @@ prepare:
 clean:
 	rm -rf $(BIN_DIR)
 	rm -rf $(BUILD_DIR)
+	touch log_file.txt
+	rm log_file.txt

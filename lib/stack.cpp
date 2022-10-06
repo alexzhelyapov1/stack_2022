@@ -1,17 +1,7 @@
 #include "stack.h"
 
-FILE* log_file = file_logging_init("../log_file.txt");
+FILE* log_file = file_logging_init("log_file.txt");
 
-// struct Stack {
-//     int start_canary_of_stack_struct;
-//     void* stack_pointer;
-//     int num_of_elements;
-//     int max_num_of_elements;
-//     int size_of_element;
-//     int offset;
-//     int size_of_allocated_mem;
-//     int end_canary_of_stack_struct;
-// };
 
 int stack_init(struct Stack* stack, int size_of_element) {
     assert(stack);
@@ -25,8 +15,14 @@ int stack_init(struct Stack* stack, int size_of_element) {
     stack->size_of_canary = sizeof(CANARY_FOR_STACK_ARRAY);
     stack->size_of_allocated_mem = stack->max_num_of_elements * stack->size_of_element + 2 * stack->size_of_canary;
     stack->stack_pointer = (void*)malloc(stack->size_of_allocated_mem);
-    if (!stack->stack_pointer) return CANT_ALLOCATE_MEMORY_INIT_STACK;
-    if (install_canaries(stack)) return CANT_INSTALL_CANARIES;
+    if (!stack->stack_pointer) {
+        DEBUG_MESSAGE(debug_print(DEBUG_ERRORS, "ERROR! Can't allocate memory in func Init Stack\n");)
+        return CANT_ALLOCATE_MEMORY_INIT_STACK;
+    }
+    if (install_canaries(stack)) {
+        DEBUG_MESSAGE(debug_print(DEBUG_ERRORS, "ERROR! Can't install memory in func Init Stack\n");)
+        return CANT_INSTALL_CANARIES;
+    }
     stack->hash = hash(stack->stack_pointer, stack->size_of_allocated_mem);
 
     return OK;
@@ -34,30 +30,41 @@ int stack_init(struct Stack* stack, int size_of_element) {
 
 int stack_push(struct Stack* stack, void* element) {
     assert(stack);
-    dpf(fprintf(log_file, "Pushing elemnt %d\n", *((int*)element));)
+    DEBUG_MESSAGE(debug_print(DEBUG_MAIN_STEPS, "Pushing element %d\n", *((int*)element));)
 
     if (stack->num_of_elements == stack->max_num_of_elements) {
         stack->size_of_allocated_mem += stack->max_num_of_elements * stack->size_of_element * (STACK_MULTIPLY_CONST - 1);
         stack->max_num_of_elements *= STACK_MULTIPLY_CONST;
         stack->stack_pointer = (void*)realloc(stack->stack_pointer, stack->size_of_allocated_mem);
-        dpf(fprintf(log_file, "\nStack array reallocated. New params: \nmax number of elements = %d\nsize of allocated memory = %d\nsize of 2 canaries = %d\n\n", stack->max_num_of_elements, stack->size_of_allocated_mem, 2 * stack->size_of_canary);)
-        if (!stack->stack_pointer) return CANT_ALLOCATE_MEMORY_PUSH;
-        if (install_canaries(stack)) return CANT_INSTALL_CANARIES;
+        DEBUG_MESSAGE(debug_print(DEBUG_MAIN_STEPS, "\nStack array reallocated. New params: \n"
+                      "max number of elements = %d\nsize of allocated memory = %d\nsize of 2 canaries = %d\n\n", \
+                       stack->max_num_of_elements, stack->size_of_allocated_mem, 2 * stack->size_of_canary);)
+        if (!stack->stack_pointer) {
+            DEBUG_MESSAGE(debug_print(DEBUG_ERRORS, "ERROR! Can't allocate memory in func push\n");)
+            return CANT_ALLOCATE_MEMORY_PUSH;
+        }
+        if (install_canaries(stack)) {
+            DEBUG_MESSAGE(debug_print(DEBUG_ERRORS, "ERROR! Can't install canaries in func push\n");)
+            return CANT_INSTALL_CANARIES;
+        }
     }
 
     memcpy(stack->stack_pointer + stack->offset, element, stack->size_of_element);
     stack->num_of_elements += 1;
     stack->offset += stack->size_of_element;
     stack->hash = hash(stack->stack_pointer, stack->size_of_allocated_mem);
-    dpf(fprintf(log_file, "After pushing "));
-    dpf(stack_print_file(stack, log_file));
+    DEBUG_MESSAGE(debug_print(DEBUG_MAIN_STEPS, "After pushing ");)
+    DEBUG_MESSAGE(stack_print_file(stack, log_file));
     return OK;
 }
 
 int stack_pop(struct Stack* stack, void* return_element) {
     assert(stack);
 
-    if (stack_isEmpty(stack)) return NO_ELEMENTS_TO_POP;
+    if (stack_isEmpty(stack)) {
+        DEBUG_MESSAGE(debug_print(DEBUG_ERRORS, "ERROR! Nothing to pop\n");)
+        return NO_ELEMENTS_TO_POP;
+    }
     stack->num_of_elements -= 1;
     stack->offset -= stack->size_of_element;
     memcpy(return_element, stack->stack_pointer + stack->offset, stack->size_of_element);
@@ -65,23 +72,29 @@ int stack_pop(struct Stack* stack, void* return_element) {
     if (stack->num_of_elements * STACK_DIVIDE_TRIGGER <= stack->max_num_of_elements) {
         stack->max_num_of_elements /= STACK_DIVIDE_CONST;
         stack->size_of_allocated_mem -= stack->max_num_of_elements * stack->size_of_element;
-        dpf(fprintf(log_file, "\nStack array reallocated. New params: \nmax number of elements = %d\nsize of allocated memory = %d\nsize of 2 canaries = %d\n\n", stack->max_num_of_elements, stack->size_of_allocated_mem, 2 * stack->size_of_canary);)
+        DEBUG_MESSAGE(debug_print(DEBUG_MAIN_STEPS, "\nStack array reallocated. New params: \nmax number of elements = %d\n"
+                                  "size of allocated memory = %d\nsize of 2 canaries = %d\n\n", stack->max_num_of_elements,
+                                   stack->size_of_allocated_mem, 2 * stack->size_of_canary);)
         stack->stack_pointer = (void*)realloc(stack->stack_pointer, stack->size_of_allocated_mem);
-        if (!stack->stack_pointer) return CANT_ALLOCATE_MEMORY_POP;
-        if (install_canaries(stack)) return CANT_INSTALL_CANARIES;
+        if (!stack->stack_pointer) {
+            DEBUG_MESSAGE(debug_print(DEBUG_ERRORS, "ERROR! CANT_ALLOCATE_MEMORY_POP\n");)
+            return CANT_ALLOCATE_MEMORY_POP;
+        }
+        if (install_canaries(stack)) {
+            DEBUG_MESSAGE(debug_print(DEBUG_ERRORS, "ERROR! CANT_INSTALL_CANARIES in pop\n");)
+            return CANT_INSTALL_CANARIES;
+        }
     }
     stack->hash = hash(stack->stack_pointer, stack->size_of_allocated_mem);
-    dpf(fprintf(log_file, "Popping elemnt %d\n", *((int*)return_element));)
-    dpf(fprintf(log_file, "After popping "));
-    dpf(stack_print_file(stack, log_file));
+    DEBUG_MESSAGE(debug_print(DEBUG_MAIN_STEPS, "Popping elemnt %d\n", *((int*)return_element));)
+    DEBUG_MESSAGE(debug_print(DEBUG_MAIN_STEPS, "After popping ");)
+    DEBUG_MESSAGE(stack_print_file(stack, log_file);)
     return OK;
 }
 
 int stack_print(struct Stack* stack) {
     assert(stack);
 
-    // dpf(fprintf(log_file, "Printing stack. First element on the top is = %d\n", 
-    //             *((int*)(stack->stack_pointer + stack->offset)));)
     printf("Stack: ");
     for (int i = stack->offset - stack->size_of_element; i >= stack->size_of_canary; i -= stack->size_of_element) {
         printf(KEY_FOR_PRINTF, *(TYPE_OF_ELEMENT*)(stack->stack_pointer + i));
@@ -96,8 +109,6 @@ int stack_print(struct Stack* stack) {
 int stack_print_file(struct Stack* stack, FILE* file) {
     assert(stack);
 
-    // dpf(fprintf(log_file, "Printing stack. First element on the top is = %d\n",  
-    //             *((int*)(stack->stack_pointer + stack->offset)));)
     fprintf(file, "Stack: ");
     for (int i = stack->offset - stack->size_of_element; i >= stack->size_of_canary; i -= stack->size_of_element) {
         fprintf(file, KEY_FOR_PRINTF, *(TYPE_OF_ELEMENT*)(stack->stack_pointer + i));
@@ -113,6 +124,7 @@ int stack_top(struct Stack* stack, void* return_element) {
     assert(stack);
 
     if (stack_isEmpty(stack)) {
+        DEBUG_MESSAGE(debug_print(DEBUG_ERRORS, "ERROR! NO_ELEMENTS_TO_TOP\n");)
         return NO_ELEMENTS_TO_TOP;
     }
     int local_offset = stack->offset - stack->size_of_element;
@@ -142,18 +154,25 @@ int stack_valid (struct Stack* stack) {
     assert(stack);
 
     if (stack->start_canary_of_stack_struct != CANARY_FOR_STACK || \
-        stack->end_canary_of_stack_struct != CANARY_FOR_STACK)
+        stack->end_canary_of_stack_struct != CANARY_FOR_STACK) {
+            DEBUG_MESSAGE(debug_print(DEBUG_ERRORS, "ERROR! INVALID_CANARY_OF_STACK in validation\n");)
             return INVALID_CANARY_OF_STACK;
+            }
     if (strcmp((char*)stack->stack_pointer, CANARY_FOR_STACK_ARRAY) || \
         strcmp((char*)(stack->stack_pointer + stack->max_num_of_elements * stack->size_of_element + stack->size_of_canary), \
                                                                                                      CANARY_FOR_STACK_ARRAY)) {
-            dpf(fprintf (log_file, "Comparing first canary \"%s\", \"%s\".\n", (char*)stack->stack_pointer, CANARY_FOR_STACK_ARRAY);)
-            dpf(fprintf (log_file, "Comparing second canary \"%s\", \"%s\".\n", (char*)(stack->stack_pointer + stack->max_num_of_elements * \
-                                                                        stack->size_of_element + stack->size_of_canary), CANARY_FOR_STACK_ARRAY);)
+            DEBUG_MESSAGE(debug_print(DEBUG_MAIN_STEPS, "Comparing first canary \"%s\", \"%s\".\n", 
+                                     (char*)stack->stack_pointer, CANARY_FOR_STACK_ARRAY);)
+            DEBUG_MESSAGE(debug_print(DEBUG_MAIN_STEPS, "Comparing second canary \"%s\", \"%s\".\n", 
+                                (char*)(stack->stack_pointer + stack->max_num_of_elements * stack->size_of_element +
+                                stack->size_of_canary), CANARY_FOR_STACK_ARRAY);)
+            DEBUG_MESSAGE(debug_print(DEBUG_ERRORS, "ERROR! INVALID_CANARY_OF_STACK_ARRAY in validation\n");)
             return INVALID_CANARY_OF_STACK_ARRAY;
     }
     if (hash(stack->stack_pointer, stack->size_of_allocated_mem) != stack->hash) {
-        dpf(fprintf(log_file, "Comparing hash. Hash expected = %lu, hash received = %lu\n", hash(stack->stack_pointer, stack->size_of_allocated_mem), stack->hash);)
+        DEBUG_MESSAGE(debug_print(DEBUG_MAIN_STEPS, "Comparing hash. Hash expected = %lu, hash received = %lu\n", 
+                                  hash(stack->stack_pointer, stack->size_of_allocated_mem), stack->hash);)
+        DEBUG_MESSAGE(debug_print(DEBUG_ERRORS, "ERROR! INVALID_HASH_OF_STACK in validation\n");)
         return INVALID_HASH_OF_STACK;
     }
     return OK;
@@ -190,13 +209,10 @@ unsigned long hash(void *data, int len_of_mem) {
 
     while (i < len_of_mem) {
         c = *((char*)data + i);
-        dpfa(fprintf(log_file, "Chars while hashing: ");)
-        dpfa(fprintf(log_file, "%c", c);)
-        dpfa(fprintf(log_file, "\n");)
         hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
         i++;
     }
-    dpf(fprintf(log_file, "Hash calculated = %lu\n", hash);)
+    DEBUG_MESSAGE(debug_print(DEBUG_MAIN_STEPS, "Hash calculated = %lu\n", hash);)
     return hash;
 }
 
@@ -238,5 +254,13 @@ void print_name_of_err (int er) {
         fprintf (log_file, "Undefined error\n");
     }
     log_file = temp;
+}
 
+void debug_print(enum debug_level level, const char* format, ...) {
+    va_list args;
+    va_start(args, format);
+    if (level <= DEBUG_LEVEL) {
+        vfprintf(log_file, format, args);
+    }
+    va_end(args);
 }

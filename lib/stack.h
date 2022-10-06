@@ -19,8 +19,14 @@
 
 // Debug settings
 //-----------------------------------------------------------------------------
-#define dpf(code) code          // Debug print to file
-#define dpfa(code)          // Debug print to file all steps
+#define DEBUG_MESSAGE(code) code  // Define wrap for debug print
+enum debug_level {
+    NO_DEBUG,
+    DEBUG_ERRORS,
+    DEBUG_MAIN_STEPS,
+    DEBUG_ALL
+};
+#define DEBUG_LEVEL DEBUG_ALL
 //-----------------------------------------------------------------------------
 
 
@@ -28,6 +34,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
+#include <cstdarg>
 
 struct Stack {
     int start_canary_of_stack_struct;
@@ -74,6 +81,7 @@ int stack_valid(struct Stack* stack);
 int install_canaries(struct Stack* stack);
 void print_name_of_err (int er);
 unsigned long hash(void *data, int len_of_mem);
+void debug_print(enum debug_level level, const char* format, ...);   // Print message depending on the degree of debug
 //-----------------------------------------------------------------------------
 
 #endif
