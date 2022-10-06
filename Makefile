@@ -1,8 +1,8 @@
 BUILD_DIR := build
 BIN_DIR := bin
-LIB_DIR := lib
-VPATH := . lib/
 
+SRC_DIRS := . lib
+VPATH += $(SRC_DIRS)
 APPLICATION := $(BUILD_DIR)/stack
 
 CXX := g++
@@ -22,7 +22,7 @@ all: prepare $(APPLICATION)
 $(APPLICATION): $(BIN_DIR)/main.o $(BIN_DIR)/stack.o $(BIN_DIR)/test.o
 	$(CXX) $^ -o $@ $(CXX_FLAGS)
 
-$(BIN_DIR)/%.o: VPATH/%.cpp
+$(BIN_DIR)/%.o: %.cpp
 	$(CXX) $< -c -o $@ $(CXX_FLAGS)
 
 .PHONY: clean prepare run
