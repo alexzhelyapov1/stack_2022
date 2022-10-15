@@ -1,0 +1,206 @@
+Hash calculated = 18244365202406150021
+Pushing element 0
+Hash calculated = 18244365202406150021
+After pushing Stack: 0  
+Pushing element 1
+Hash calculated = 15884150782749478630
+After pushing Stack: 1  0  
+Pushing element 2
+
+Stack array reallocated. New params: 
+max number of elements = 4
+size of allocated memory = 64
+size of 2 canaries = 48
+
+Hash calculated = 8636240668133634660
+After pushing Stack: 2  1  0  
+Pushing element 3
+Hash calculated = 9238463061762499275
+After pushing Stack: 3  2  1  0  
+Pushing element 4
+
+Stack array reallocated. New params: 
+max number of elements = 8
+size of allocated memory = 80
+size of 2 canaries = 48
+
+Hash calculated = 14334717434747509822
+After pushing Stack: 4  3  2  1  0  
+Pushing element 5
+Hash calculated = 3827280170124256359
+After pushing Stack: 5  4  3  2  1  0  
+Pushing element 6
+Hash calculated = 7041098023147455424
+After pushing Stack: 6  5  4  3  2  1  0  
+Pushing element 7
+Hash calculated = 17511276264270379297
+After pushing Stack: 7  6  5  4  3  2  1  0  
+Pushing element 8
+
+Stack array reallocated. New params: 
+max number of elements = 16
+size of allocated memory = 112
+size of 2 canaries = 48
+
+Hash calculated = 8890304206099141553
+After pushing Stack: 8  7  6  5  4  3  2  1  0  
+Pushing element 9
+Hash calculated = 13048131178976515934
+After pushing Stack: 9  8  7  6  5  4  3  2  1  0  
+Pushing element 10
+Hash calculated = 14438380264158195771
+After pushing Stack: 10  9  8  7  6  5  4  3  2  1  0  
+Pushing element 11
+Hash calculated = 7793564775124569376
+After pushing Stack: 11  10  9  8  7  6  5  4  3  2  1  0  
+Pushing element 12
+Hash calculated = 9498993564841064192
+After pushing Stack: 12  11  10  9  8  7  6  5  4  3  2  1  0  
+Pushing element 13
+Hash calculated = 2990440073426610944
+After pushing Stack: 13  12  11  10  9  8  7  6  5  4  3  2  1  0  
+Pushing element 14
+Hash calculated = 13152645968717322574
+After pushing Stack: 14  13  12  11  10  9  8  7  6  5  4  3  2  1  0  
+Pushing element 15
+Hash calculated = 14642917821286354941
+After pushing Stack: 15  14  13  12  11  10  9  8  7  6  5  4  3  2  1  0  
+Pushing element 16
+
+Stack array reallocated. New params: 
+max number of elements = 32
+size of allocated memory = 176
+size of 2 canaries = 48
+
+Hash calculated = 7539713743071382845
+After pushing Stack: 16  15  14  13  12  11  10  9  8  7  6  5  4  3  2  1  0  
+Pushing element 17
+Hash calculated = 10045451472790124530
+After pushing Stack: 17  16  15  14  13  12  11  10  9  8  7  6  5  4  3  2  1  0  
+Pushing element 18
+Hash calculated = 3779193004817314775
+After pushing Stack: 18  17  16  15  14  13  12  11  10  9  8  7  6  5  4  3  2  1  0  
+Pushing element 19
+Hash calculated = 13245482232747626436
+After pushing Stack: 19  18  17  16  15  14  13  12  11  10  9  8  7  6  5  4  3  2  1  0  
+Pushing element 20
+Hash calculated = 16096105545913901228
+After pushing Stack: 20  19  18  17  16  15  14  13  12  11  10  9  8  7  6  5  4  3  2  1  0  
+Pushing element 21
+Hash calculated = 15854904446986893236
+After pushing Stack: 21  20  19  18  17  16  15  14  13  12  11  10  9  8  7  6  5  4  3  2  1  0  
+Pushing element 22
+Hash calculated = 5853055047662779658
+After pushing Stack: 22  21  20  19  18  17  16  15  14  13  12  11  10  9  8  7  6  5  4  3  2  1  0  
+Pushing element 23
+Hash calculated = 3500331533412354753
+After pushing Stack: 23  22  21  20  19  18  17  16  15  14  13  12  11  10  9  8  7  6  5  4  3  2  1  0  
+Pushing element 24
+Hash calculated = 11047715712123062321
+After pushing Stack: 24  23  22  21  20  19  18  17  16  15  14  13  12  11  10  9  8  7  6  5  4  3  2  1  0  
+Hash calculated = 11047715712123062321
+Popping elemnt 24
+After popping Stack: 23  22  21  20  19  18  17  16  15  14  13  12  11  10  9  8  7  6  5  4  3  2  1  0  
+Hash calculated = 11047715712123062321
+Popping elemnt 23
+After popping Stack: 22  21  20  19  18  17  16  15  14  13  12  11  10  9  8  7  6  5  4  3  2  1  0  
+Hash calculated = 11047715712123062321
+Popping elemnt 22
+After popping Stack: 21  20  19  18  17  16  15  14  13  12  11  10  9  8  7  6  5  4  3  2  1  0  
+Hash calculated = 11047715712123062321
+Popping elemnt 21
+After popping Stack: 20  19  18  17  16  15  14  13  12  11  10  9  8  7  6  5  4  3  2  1  0  
+Hash calculated = 11047715712123062321
+Popping elemnt 20
+After popping Stack: 19  18  17  16  15  14  13  12  11  10  9  8  7  6  5  4  3  2  1  0  
+Hash calculated = 11047715712123062321
+Popping elemnt 19
+After popping Stack: 18  17  16  15  14  13  12  11  10  9  8  7  6  5  4  3  2  1  0  
+Hash calculated = 11047715712123062321
+Popping elemnt 18
+After popping Stack: 17  16  15  14  13  12  11  10  9  8  7  6  5  4  3  2  1  0  
+Hash calculated = 11047715712123062321
+Popping elemnt 17
+After popping Stack: 16  15  14  13  12  11  10  9  8  7  6  5  4  3  2  1  0  
+Hash calculated = 11047715712123062321
+Popping elemnt 16
+After popping Stack: 15  14  13  12  11  10  9  8  7  6  5  4  3  2  1  0  
+Hash calculated = 11047715712123062321
+Popping elemnt 15
+After popping Stack: 14  13  12  11  10  9  8  7  6  5  4  3  2  1  0  
+Hash calculated = 11047715712123062321
+Popping elemnt 14
+After popping Stack: 13  12  11  10  9  8  7  6  5  4  3  2  1  0  
+Hash calculated = 11047715712123062321
+Popping elemnt 13
+After popping Stack: 12  11  10  9  8  7  6  5  4  3  2  1  0  
+Hash calculated = 11047715712123062321
+Popping elemnt 12
+After popping Stack: 11  10  9  8  7  6  5  4  3  2  1  0  
+Hash calculated = 11047715712123062321
+Popping elemnt 11
+After popping Stack: 10  9  8  7  6  5  4  3  2  1  0  
+Hash calculated = 11047715712123062321
+Popping elemnt 10
+After popping Stack: 9  8  7  6  5  4  3  2  1  0  
+Hash calculated = 11047715712123062321
+Popping elemnt 9
+After popping Stack: 8  7  6  5  4  3  2  1  0  
+
+Stack array reallocated. New params: 
+max number of elements = 16
+size of allocated memory = 112
+size of 2 canaries = 48
+
+Hash calculated = 14642917821286354941
+Popping elemnt 8
+After popping Stack: 7  6  5  4  3  2  1  0  
+Hash calculated = 14642917821286354941
+Popping elemnt 7
+After popping Stack: 6  5  4  3  2  1  0  
+Hash calculated = 14642917821286354941
+Popping elemnt 6
+After popping Stack: 5  4  3  2  1  0  
+Hash calculated = 14642917821286354941
+Popping elemnt 5
+After popping Stack: 4  3  2  1  0  
+
+Stack array reallocated. New params: 
+max number of elements = 8
+size of allocated memory = 80
+size of 2 canaries = 48
+
+Hash calculated = 17511276264270379297
+Popping elemnt 4
+After popping Stack: 3  2  1  0  
+Hash calculated = 17511276264270379297
+Popping elemnt 3
+After popping Stack: 2  1  0  
+
+Stack array reallocated. New params: 
+max number of elements = 4
+size of allocated memory = 64
+size of 2 canaries = 48
+
+Hash calculated = 9238463061762499275
+Popping elemnt 2
+After popping Stack: 1  0  
+
+Stack array reallocated. New params: 
+max number of elements = 2
+size of allocated memory = 56
+size of 2 canaries = 48
+
+Hash calculated = 15884150782749478630
+Popping elemnt 1
+After popping Stack: 0  
+
+Stack array reallocated. New params: 
+max number of elements = 1
+size of allocated memory = 52
+size of 2 canaries = 48
+
+Hash calculated = 8091903533696775429
+Popping elemnt 0
+After popping Stack: *stack is empty*
+ERROR! Nothing to pop
