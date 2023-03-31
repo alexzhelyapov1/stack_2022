@@ -1,7 +1,7 @@
 BUILD_DIR := build
 BIN_DIR := bin
 
-SRC_DIRS := . lib
+SRC_DIRS := . src
 VPATH += $(SRC_DIRS)
 APPLICATION := $(BUILD_DIR)/stack
 
